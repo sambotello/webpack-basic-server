@@ -1,19 +1,21 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var webpack = require('webpack');
-var path = require('path');
-var bootstrapEntryPoints = require('./webpack.bootstrap.config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack');
+const path = require('path');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config');
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
 
-var isProd = process.env.NODE_ENV === 'production'; // true or false
-var cssDev = ['style-loader','css-loader','sass-loader'];
-var cssProd = ExtractTextPlugin.extract({
+const isProd = process.env.NODE_ENV === 'production'; // true or false
+const cssDev = ['style-loader','css-loader','sass-loader'];
+const cssProd = ExtractTextPlugin.extract({
     fallback: 'style-loader',
     use: ['css-loader','sass-loader'],
     publicPath: '/public'
 });
-var cssConfig = isProd ? cssProd : cssDev;
+const cssConfig = isProd ? cssProd : cssDev;
 
-var bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 
 module.exports = {
     entry: {
@@ -22,7 +24,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'public'),
-        filename: '[name].bundle.js' //dynamic name from entry...
+        filename: 'js/[name].bundle.js' //dynamic name from entry...
     },
     module: {
         rules: [
@@ -65,11 +67,15 @@ module.exports = {
             template: 'src/index.html'
         }),
         new ExtractTextPlugin({
-            filename: '/css/[name].css',
+            filename: 'css/[name].css',
             disable: !isProd,
             allChunks: true,
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
+        new PurifyCSSPlugin({
+            // Give paths to parse for rules. These should be absolute!
+            paths: glob.sync(path.join(__dirname, 'src/*.html')),
+        })
     ],
 }
