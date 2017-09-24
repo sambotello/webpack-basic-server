@@ -18,12 +18,13 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'public'),
-        filename: '[name].bundle.js' //dynamic name from entry...
+        filename: 'js/[name].bundle.js' //dynamic name from entry...
     },
     module: {
         rules: [
             {
-                test: /\.scss$/,
+                // test: /\.scss$/,
+                test: /\.(s?[ac]ss)$/,
                 use: cssConfig
             },
             {
@@ -58,7 +59,7 @@ module.exports = {
             template: 'src/index.html'
         }),
         new ExtractTextPlugin({
-            filename: 'app.css',
+            filename: 'css/[name].css',
             disable: !isProd,
             allChunks: true,
         }),
