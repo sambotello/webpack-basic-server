@@ -1,3 +1,5 @@
+@import './bootstrap-pre-customizations.scss';
+
 *{
     margin: 0;
 }
@@ -13,10 +15,14 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-        background-image: url('../images/webpack_icon.svg');
+        background-image: url('../images/webpack_icon.png');
     }
     h1{
         color: white;
         margin-top: 40px;
     }
+}
+
+h1{
+    color: $brand-primary;
 }
