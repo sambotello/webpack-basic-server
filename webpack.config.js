@@ -1,6 +1,8 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require('webpack');
+var path = require('path');
+
 var isProd = process.env.NODE_ENV === 'production'; // true or false
 var cssDev = ['style-loader','css-loader','sass-loader'];
 var cssProd = ExtractTextPlugin.extract({
@@ -15,8 +17,8 @@ module.exports = {
         app: './src/App.js',
     },
     output: {
-        path: __dirname + '/public',
-        filename: '[name].bundle.js' //synamic name from entry...
+        path: path.resolve(__dirname, 'public'),
+        filename: '[name].bundle.js' //dynamic name from entry...
     },
     module: {
         rules: [
@@ -39,10 +41,10 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: __dirname + '/public',
+        contentBase: path.join(__dirname, 'public'),
         compress: true,
         port: 3000,
-        hot: true,
+        // hot: true, // NOT WORKING!!
         stats: 'errors-only',
         open: true // opens automatically browser
     },
