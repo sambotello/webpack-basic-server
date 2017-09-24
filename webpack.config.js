@@ -22,18 +22,19 @@ module.exports = {
         rules: [
             {
                 test: /\.scss$/,
-                // use: ['style-loader','css-loader','sass-loader'],
-                // use: ExtractTextPlugin.extract({
-                //     fallback: 'style-loader',
-                //     use: ['css-loader','sass-loader'],
-                //     publicPath: '/public'
-                // })
                 use: cssConfig
             },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                use: 'babel-loader'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                use: [
+                    'file-loader?name=[name].[ext]&publicPath=./&outputPath=images/',
+                    'image-webpack-loader'
+                ]
             }
         ]
     },

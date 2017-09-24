@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+}
+.hero{
+    background-color: #30b2db;
+    min-height: 400px;
+    text-align: center;
+    .logo{
+        display: block;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-image: url('../images/webpack_icon.svg');
+    }
+    h1{
+        color: white;
+        margin-top: 40px;
+    }
+}
