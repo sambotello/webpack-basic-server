@@ -5,7 +5,7 @@
     "scripts": {
         "start": "webpack -d && webpack-dev-server",
         "dev": "webpack -d --watch",
-        "build": "npm run clean && webpack -p",
+        "build": "npm run clean && NODE_ENV=production webpack -p",
         "clean": "rimraf ./public/*"
     },
     "author": "Sam M de O",

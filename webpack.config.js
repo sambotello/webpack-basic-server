@@ -1,5 +1,14 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require('webpack');
+var isProd = process.env.NODE_ENV === 'production'; // true or false
+var cssDev = ['style-loader','css-loader','sass-loader'];
+var cssProd = ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: ['css-loader','sass-loader'],
+    publicPath: '/public'
+});
+var cssConfig = isProd ? cssProd : cssDev;
 
 module.exports = {
     entry: {
@@ -13,11 +22,13 @@ module.exports = {
         rules: [
             {
                 test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader','sass-loader'],
-                    publicPath: '/public'
-                })
+                // use: ['style-loader','css-loader','sass-loader'],
+                // use: ExtractTextPlugin.extract({
+                //     fallback: 'style-loader',
+                //     use: ['css-loader','sass-loader'],
+                //     publicPath: '/public'
+                // })
+                use: cssConfig
             },
             {
                 test: /\.js$/,
@@ -30,6 +41,7 @@ module.exports = {
         contentBase: __dirname + '/public',
         compress: true,
         port: 3000,
+        hot: true,
         stats: 'errors-only',
         open: true // opens automatically browser
     },
@@ -44,8 +56,10 @@ module.exports = {
         }),
         new ExtractTextPlugin({
             filename: 'app.css',
-            disable: false,
+            disable: !isProd,
             allChunks: true,
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
     ],
 }
